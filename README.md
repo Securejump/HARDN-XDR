@@ -3,7 +3,7 @@
 
 
 <p align="center">
-  <img src="https://img.shields.io/badge/OS: DEBIAN 12-red?style=for-the-badge&labelColor=grey" alt="OS: DEBIAN 12"><br><br>
+  <img src="https://img.shields.io/badge/OS:FreeBSD-red?style=for-the-badge&labelColor=grey" alt="OS: FreeBSD 14"><br><br>
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
 
 
 ### HARDN Endpoint
-- This installation is only for **BARE-METAL INSTALLS of DEBIAN 12**
+- This installation is only for **BARE-METAL INSTALLS of FreeBSD 14**
 -  Is a robust and secure endpoint management solution designed to simplify and enhance the management of devices in your network. It provides advanced features for monitoring, securing, and maintaining endpoints efficiently.
 
 - We also bring you with this release `STIG` COMPLIANCE to align with the Security Technical Information Guides provided by the DOD Cyber Exchange.
@@ -69,7 +69,7 @@ The purpose of HARDN Endpoint is to empower IT administrators and users with the
 
 1. Clone the repository from GitHub:
   ```bash
-  git clone https://github.com/opensource-for-freedom/HARDN.git
+git clone --branch dev-freebsd https://github.com/OpenSource-For-Freedom/HARDN.git
   ```
 2. Navigate to the `src` directory:
  ```bash
@@ -78,7 +78,20 @@ The purpose of HARDN Endpoint is to empower IT administrators and users with the
   sudo ./setup.sh
 
   ```
-  This will kick off the full setup of HARDN with `STIG` principles. 
+
+
+### Quick Setup for FreeBSD VM Usage
+
+```bash
+pkg update -f && pkg upgrade -y
+pkg install -y git sudo python3
+git clone --branch dev-freebsd https://github.com/OpenSource-For-Freedom/HARDN.git
+cd HARDN/src/setup
+chmod +x setup.sh
+sudo ./setup.sh
+```
+
+  This will kick off the full setup of HARDN with `STIG` principles for FreeBSD 14
   ### NOTE: 
 
   
