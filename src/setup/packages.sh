@@ -123,17 +123,17 @@ validate_configuration() {
     $FIX_MODE && echo -e "\033[1;34m[*] Fix mode was enabled. Auto-remediation attempted.\033[0m" | tee -a "$LOG_FILE"
 }
 
-make_immutable() {
-    SETUP_SCRIPT="/HARDN/src/setup/setup.sh"
-    PACKAGES_SCRIPT="/HARDN/src/setup/packages.sh"
+# make_immutable() {
+    # SETUP_SCRIPT="/HARDN/src/setup/setup.sh"
+    # PACKAGES_SCRIPT="/HARDN/src/setup/packages.sh"
 
-    printf "\033[1;31m[+] Making setup.sh and packages.sh immutable...\033[0m\n"
-    chmod 555 "$SETUP_SCRIPT"
-    chmod 555 "$PACKAGES_SCRIPT"
-    chflags schg "$SETUP_SCRIPT"
-    chflags schg "$PACKAGES_SCRIPT"
-    printf "\033[1;32m[+] setup.sh and packages.sh are now immutable.\033[0m\n"
-}
+    # printf "\033[1;31m[+] Making setup.sh and packages.sh immutable...\033[0m\n"
+    # chmod 555 "$SETUP_SCRIPT"
+    # chmod 555 "$PACKAGES_SCRIPT"
+    # chflags schg "$SETUP_SCRIPT"
+    # chflags schg "$PACKAGES_SCRIPT"
+    # printf "\033[1;32m[+] setup.sh and packages.sh are now immutable.\033[0m\n"
+# }
 
 main() {
     if [ "$1" = "--fix" ]; then
@@ -142,7 +142,7 @@ main() {
 
     initialize_log
     validate_configuration
-    make_immutable
+    # make_immutable
 
     # Force reboot
     printf "\033[1;31m[+] Rebooting system...\033[0m\n"
