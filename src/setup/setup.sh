@@ -3,13 +3,12 @@ set -e
 set -x
 
 ########################################
-#            HARDN - Setup             #
+#       HARDN- FreeBSD - Setup         #
 #        FreeBSD VM Version            #
 #        STIG Compliant Setup          #
-#  Hardened BSD 14.x - VM Optimized     #
+#  Hardened BSD 14.x - VM Optimized    #
 #     Must have Python3 installed      #
-#             Author(s):               #
-#         - Chris Bingham              #
+#              Author                  #              #
 #           - Tim Burns                #
 #        Date: 4/28/2025               #
 ########################################
@@ -163,12 +162,27 @@ setup_complete() {
     echo "======================================================="
 }
 
+
+call_packages_script() {
+    PACKAGES_SCRIPT="/HARDN/src/setup/packages.sh"
+    printf "\033[1;31m[+] Looking for packages.sh at: %s\033[0m\n" "$PACKAGES_SCRIPT"
+    if [ -f "$PACKAGES_SCRIPT" ]; then
+        printf "\033[1;31m[+] Setting executable permissions for packages.sh...\033[0m\n"
+        chmod +x "$PACKAGES_SCRIPT"
+        printf "\033[1;31m[+] Calling packages.sh...\033[0m\n"
+        "$PACKAGES_SCRIPT"
+    else
+        printf "\033[1;31m[-] packages.sh not found at: %s. Skipping...\033[0m\n" "$PACKAGES_SCRIPT"
+    fi
+}
+
 main() {
     update_system_packages
     install_base_packages
     install_security_tools
     apply_stig_hardening
     setup_complete
+    call_packages_script
 }
 
 main
