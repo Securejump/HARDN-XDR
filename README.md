@@ -108,6 +108,10 @@ We welcome contributions!
 
 </p>
 
+
+![GitHub stats](https://github-readme-stats.vercel.app/api?username=opensource-for-freedom&show_icons=true&theme=dark)
+
+
 <p align="center">
   <img src="https://img.shields.io/badge/PROJECT PARTNERS-white?style=for-the-badge&labelColor=black" alt="PROJECT PARTNERS"><br><br>
 </p>
