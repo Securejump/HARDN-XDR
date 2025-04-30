@@ -8,7 +8,7 @@ set -x
 #        STIG Compliant Setup          #
 #  Hardened BSD 14.x - VM Optimized    #
 #     Must have Python3 installed      #
-#              Author                  #              #
+#              Author                  #
 #           - Tim Burns                #
 #        Date: 4/28/2025               #
 ########################################
@@ -17,6 +17,18 @@ set -x
 if [ "$(id -u)" -ne 0 ]; then
     echo "This script must be run as root. Use: sudo ./setup.sh"
     exit 1
+fi
+
+# Ensure FreeBSD version is 14.x
+if ! freebsd-version | grep -q '^14'; then
+    echo "This script is designed for FreeBSD 14.x. Exiting."
+    exit 1
+fi
+
+# Ensure pkg is initialized
+if ! pkg -N > /dev/null 2>&1; then
+    echo "Initializing pkg..."
+    /usr/sbin/pkg bootstrap -y
 fi
 
 update_system_packages() {
@@ -72,17 +84,50 @@ harden_sysctl() {
     printf "\033[1;31m[+] Applying sysctl hardening...\033[0m\n"
     cat <<EOF >> /etc/sysctl.conf
 
+# Disable IP forwarding
 net.inet.ip.forwarding=0
+
+# Disable ICMP redirects
 net.inet.ip.redirect=0
 net.inet6.ip6.redirect=0
+
+# Enable blackhole for TCP and UDP
 net.inet.tcp.blackhole=2
 net.inet.udp.blackhole=1
+
+# Randomize PIDs to make process enumeration harder
 kern.randompid=1
+
+# Restrict visibility of other users' processes
 security.bsd.see_other_uids=0
 security.bsd.see_other_gids=0
+
+# Prevent unprivileged users from reading kernel message buffer
 security.bsd.unprivileged_read_msgbuf=0
+
+# Harden against SYN flood attacks
+net.inet.tcp.syncookies=1
+
+# Limit the size of the listen queue to prevent DoS
+net.inet.tcp.msl=7500
+net.inet.tcp.recvspace=65536
+net.inet.tcp.sendspace=65536
+
+# Disable source routing
+net.inet.ip.sourceroute=0
+net.inet6.ip6.sourceroute=0
+
+# Log martian packets
+net.inet.ip.check_interface=1
+
+# Disable acceptance of router advertisements
+net.inet6.ip6.accept_rtadv=0
+
+# Enable stricter memory protections
+vm.pmap.pg_ps_enabled=0
 EOF
     sysctl -p
+}
 }
 
 secure_boot_services() {
@@ -96,16 +141,16 @@ secure_boot_services() {
 
 secure_sshd() {
     printf "\033[1;31m[+] Hardening SSHD...\033[0m\n"
-    sed -i '' 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
-    sed -i '' 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
-    sed -i '' 's/#ChallengeResponseAuthentication yes/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
+    sed -i '' -e 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+    sed -i '' -e 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+    sed -i '' -e 's/#ChallengeResponseAuthentication yes/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
     sysrc sshd_enable="YES"
     service sshd restart
 }
 
 harden_password_policy() {
     printf "\033[1;31m[+] Setting password complexity policies...\033[0m\n"
-    pw policy set enforce_pw_history=1 pw_history_len=5 min_pw_len=14
+    pw policy set enforce_pw_history=1 pw_history_len=5 min_pw_len=14 || echo "Password policy command failed. Ensure 'pw' supports these options."
 }
 
 set_randomize_va_space() {
@@ -130,6 +175,7 @@ install_rust() {
         printf "\033[1;32m[+] Rust already installed.\033[0m\n"
     else
         curl https://sh.rustup.rs -sSf | sh -s -- -y
+        echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.profile
         export PATH="$HOME/.cargo/bin:$PATH"
     fi
 }
@@ -161,7 +207,6 @@ setup_complete() {
     echo "             [+] HARDN-FreeBSD Setup Complete         "
     echo "======================================================="
 }
-
 
 call_packages_script() {
     PACKAGES_SCRIPT="/HARDN/src/setup/packages.sh"

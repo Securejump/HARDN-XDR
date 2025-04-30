@@ -71,7 +71,7 @@ validate_stig_hardening() {
         "GID privacy not enforced"
 
     fix_if_needed \
-        "[ ! -z \"\$(grep 'Unauthorized use is prohibited' /etc/motd)\" ]" \
+        "grep -q 'Unauthorized use is prohibited' /etc/motd" \
         "echo 'Unauthorized use is prohibited.' > /etc/motd" \
         "MOTD legal banner exists" \
         "MOTD legal banner missing"
@@ -80,13 +80,16 @@ validate_stig_hardening() {
 validate_packages() {
     echo "[+] Validating package configurations..." | tee -a "$LOG_FILE"
 
-    command -v pfctl >/dev/null &&
-    echo "[+] pf (firewall) installed." | tee -a "$LOG_FILE" ||
-    echo "[-] pf not installed." | tee -a "$LOG_FILE"
+    if command -v pfctl >/dev/null; then
+        echo "[+] pf (firewall) installed." | tee -a "$LOG_FILE"
+    else
+        echo "[-] pf not installed." | tee -a "$LOG_FILE"
+    fi
 
+    command -v service >/dev/null &&
     service pf status >/dev/null 2>&1 &&
     echo "[+] pf firewall active." | tee -a "$LOG_FILE" ||
-    echo "[-] pf firewall not active." | tee -a "$LOG_FILE"
+    echo "[-] pf firewall not active or service command not found." | tee -a "$LOG_FILE"
 
     command -v aide >/dev/null &&
     echo "[+] AIDE installed." | tee -a "$LOG_FILE" ||
@@ -95,18 +98,18 @@ validate_packages() {
     command -v chkrootkit >/dev/null &&
     echo "[+] chkrootkit installed." | tee -a "$LOG_FILE" ||
     echo "[-] chkrootkit not installed." | tee -a "$LOG_FILE"
-
+    command -v service >/dev/null &&
     service auditd status >/dev/null 2>&1 &&
     echo "[+] auditd running." | tee -a "$LOG_FILE" ||
-    echo "[-] auditd not running." | tee -a "$LOG_FILE"
-
+    echo "[-] auditd not running or service command not found." | tee -a "$LOG_FILE"
     command -v sshguard >/dev/null &&
     echo "[+] sshguard (Fail2ban equivalent) installed." | tee -a "$LOG_FILE" ||
     echo "[-] sshguard not installed." | tee -a "$LOG_FILE"
 
+    command -v service >/dev/null &&
     service sshguard status >/dev/null 2>&1 &&
     echo "[+] sshguard active." | tee -a "$LOG_FILE" ||
-    echo "[-] sshguard not active." | tee -a "$LOG_FILE"
+    echo "[-] sshguard not active or service command not found." | tee -a "$LOG_FILE"
 
     command -v firejail >/dev/null &&
     echo "[+] firejail installed." | tee -a "$LOG_FILE" ||
@@ -144,9 +147,13 @@ main() {
     validate_configuration
     # make_immutable
 
-    # Force reboot
+    if command -v reboot >/dev/null; then
+        reboot
+    else
+        printf "\033[1;31m[-] Reboot command not found. Please reboot manually.\033[0m\n"
+    fi
     printf "\033[1;31m[+] Rebooting system...\033[0m\n"
-    shutdown -r now || printf "\033[1;31m[-] Reboot failed. Please reboot manually.\033[0m\n"
+    reboot || printf "\033[1;31m[-] Reboot failed. Please reboot manually.\033[0m\n"
 }
 
 main "$@"
