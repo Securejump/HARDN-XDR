@@ -128,7 +128,7 @@ vm.pmap.pg_ps_enabled=0
 EOF
     sysctl -p
 }
-}
+
 
 secure_boot_services() {
     printf "\033[1;31m[+] Disabling unnecessary services at boot...\033[0m\n"
