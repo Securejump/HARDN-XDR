@@ -65,12 +65,70 @@ install_security_tools() {
     pkg install -y pf auditdistd security/auditd security/pam_pwquality security/openssh-portable
 }
 
+call_grub_script() {
+    GRUB_SCRIPT="./grub.sh"  # Define path if not already
+
+    printf "\033[1;31m[+] Calling grub.sh script...\033[0m\n"
+    if [ -f "$GRUB_SCRIPT" ]; then
+        printf "\033[1;31m[+] Setting executable permissions for grub.sh...\033[0m\n"
+        chmod +x "$GRUB_SCRIPT"
+        if ! "$GRUB_SCRIPT"; then
+            printf "\033[1;31m[-] grub.sh execution failed. Exiting setup.\033[0m\n"
+            exit 1
+        fi
+    else
+        printf "\033[1;31m[-] grub.sh not found at: %s. Exiting setup.\033[0m\n" "$GRUB_SCRIPT"
+        exit 1
+    fi
+}
+
 configure_pf_firewall() {
-    printf "\033[1;31m[+] Configuring PF Firewall...\033[0m\n"
-    echo "block in all" > /etc/pf.conf
-    echo "pass out all keep state" >> /etc/pf.conf
-    sysrc pf_enable="YES"
-    service pf restart
+    printf "\033[1;31m[+] Configuring PF firewall with strict defaults (SSH blocked)...\033[0m\n"
+
+    PF_CONF="/etc/pf.conf"
+    BACKUP_DIR="/var/backups/compliance"
+    TIMESTAMP=$(date +%Y%m%d%H%M%S)
+    BACKUP_FILE="${BACKUP_DIR}/pf.conf.bak.${TIMESTAMP}"
+
+    mkdir -p "$BACKUP_DIR"
+
+    if [ -f "$PF_CONF" ]; then
+        cp "$PF_CONF" "$BACKUP_FILE"
+        printf "\033[1;32m[+] Backed up existing pf.conf to %s\033[0m\n" "$BACKUP_FILE"
+    fi
+
+    cat > "$PF_CONF" <<EOF
+# HARDN - Secure PF Configuration (SSH Blocked)
+
+# Macros
+ext_if = "vtnet0"
+
+# Defaults
+set skip on lo
+
+# Block all inbound traffic including SSH
+block in all
+
+# Explicitly block SSH even if future rules are added
+block in proto tcp to port 22
+
+# Allow all outbound traffic
+pass out all keep state
+EOF
+
+    if sysrc -q pf_enable="YES"; then
+        printf "\033[1;32m[+] PF enabled in rc.conf\033[0m\n"
+    else
+        printf "\033[1;31m[-] Failed to enable PF in rc.conf\033[0m\n"
+        exit 1
+    fi
+
+    if service pf restart; then
+        printf "\033[1;32m[+] PF firewall restarted successfully\033[0m\n"
+    else
+        printf "\033[1;31m[-] PF firewall failed to restart\033[0m\n"
+        exit 1
+    fi
 }
 
 enable_auditd() {
