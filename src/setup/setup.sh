@@ -2,16 +2,28 @@
 set -e
 set -x
 
-########################################
-#       HARDN- FreeBSD - Setup         #
-#        FreeBSD VM Version            #
-#        STIG Compliant Setup          #
-#  Hardened BSD 14.x - VM Optimized    #
-#     Must have Python3 installed      #
-#              Author                  #
-#           - Tim Burns                #
-#        Date: 4/28/2025               #
-########################################
+print_ascii_banner() {
+    CYAN_BOLD="\033[1;36m"
+    RESET="\033[0m"
+
+    printf "%s" "${CYAN_BOLD}"
+    cat << "EOF"
+                              ▄█    █▄       ▄████████    ▄████████ ████████▄  ███▄▄▄▄   
+                             ███    ███     ███    ███   ███    ███ ███   ▀███ ███▀▀▀██▄ 
+                             ███    ███     ███    ███   ███    ███ ███    ███ ███   ███ 
+                            ▄███▄▄▄▄███▄▄   ███    ███  ▄███▄▄▄▄██▀ ███    ███ ███   ███ 
+                           ▀▀███▀▀▀▀███▀  ▀███████████ ▀▀███▀▀▀▀▀   ███    ███ ███   ███ 
+                             ███    ███     ███    ███ ▀███████████ ███    ███ ███   ███ 
+                             ███    ███     ███    ███   ███    ███ ███   ▄███ ███   ███ 
+                             ███    █▀      ███    █▀    ███    ███ ████████▀   ▀█   █▀  
+                                                         ███    ███ 
+                                    
+                                                 S E T U P
+
+                                                   v 2.0
+EOF
+    printf "%s" "${RESET}"
+}
 
 # Ensure running as root
 if [ "$(id -u)" -ne 0 ]; then
