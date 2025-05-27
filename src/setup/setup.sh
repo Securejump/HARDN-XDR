@@ -57,12 +57,12 @@ set_generic_hostname() {
 
 install_base_packages() {
     printf "\033[1;31m[+] Installing base packages...\033[0m\n"
-    pkg install -y bash sudo python3 py39-pip firejail nano wget curl git gawk lynis aide chkrootkit clamav
+    pkg install -y bash sudo python3 py311-pip nano wget curl git gawk lynis aide chkrootkit clamav
 }
 
 install_security_tools() {
     printf "\033[1;31m[+] Installing security tools...\033[0m\n"
-    pkg install -y pf auditdistd security/auditd security/pam_pwquality security/openssh-portable
+    pkg install -y security/openssh-portable
 }
 
 call_grub_script() {
@@ -101,7 +101,7 @@ configure_pf_firewall() {
 # HARDN - Secure PF Configuration (SSH Blocked)
 
 # Macros
-ext_if = "vtnet0"
+ext_if="vtnet0"
 
 # Defaults
 set skip on lo
@@ -114,6 +114,11 @@ block in proto tcp to port 22
 
 # Allow all outbound traffic
 pass out all keep state
+
+table <sshguard> persist
+block in proto tcp from <sshguard>
+
+pass in on \$ext_if proto tcp from any to \$ext_if port 22
 EOF
 
     if sysrc -q pf_enable="YES"; then
@@ -134,20 +139,21 @@ EOF
 enable_auditd() {
     printf "\033[1;31m[+] Enabling auditd service...\033[0m\n"
     sysrc auditd_enable="YES"
-    service auditd start
+    service auditd restart
 }
 
 configure_aide() {
     printf "\033[1;31m[+] Configuring AIDE...\033[0m\n"
     aide --init
-    mv /var/db/aide/aide.db.new /var/db/aide/aide.db
+    mv /var/db/aide/databases/aide.db.new /var/db/aide/aide.db
 }
 
 setup_fail2ban_like_behavior() {
     printf "\033[1;31m[+] Setting sshguard (Fail2Ban equivalent)...\033[0m\n"
     pkg install -y sshguard
     sysrc sshguard_enable="YES"
-    service sshguard start
+    sed -i '' -e 's|#BACKEND="/usr/local/libexec/sshg-fw-pf"|BACKEND="/usr/local/libexec/sshg-fw-pf"|g' /usr/local/etc/sshguard.conf
+    service sshguard restart
 }
 
 harden_sysctl() {
@@ -196,7 +202,7 @@ net.inet6.ip6.accept_rtadv=0
 # Enable stricter memory protections
 vm.pmap.pg_ps_enabled=0
 EOF
-    sysctl -p
+    /etc/rc.d/sysctl reload
 }
 
 
@@ -220,7 +226,15 @@ secure_sshd() {
 
 harden_password_policy() {
     printf "\033[1;31m[+] Setting password complexity policies...\033[0m\n"
-    pw policy set enforce_pw_history=1 pw_history_len=5 min_pw_len=14 || echo "Password policy command failed. Ensure 'pw' supports these options."
+    PAM_FILE="/etc/pam.d/passwd"
+    LINE="password\trequisite\tpam_passwdqc.so\t\tmin=disabled,disabled,disabled,14,14"
+    NORMALIZED_LINE=$(echo -e "$LINE" | tr -s '\t' ' ')
+    if ! tr -s '\t' ' ' < "$PAM_FILE" | grep -Fq "$NORMALIZED_LINE"; then
+        echo -e "$LINE" >> "$PAM_FILE"
+        echo "Line added to $PAM_FILE."
+    else
+        echo "Line already exists in $PAM_FILE. No changes made."
+    fi
 }
 
 set_randomize_va_space() {
@@ -292,12 +306,13 @@ call_packages_script() {
 }
 
 main() {
+    print_ascii_banner
     update_system_packages
     install_base_packages
     install_security_tools
     apply_stig_hardening
     setup_complete
-    call_packages_script
+    #call_packages_script #TODO: fix this function.
 }
 
 main
