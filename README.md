@@ -1,7 +1,3 @@
-
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/OpenSource-For-Freedom/HARDN?include_prereleases)
-
-
 <p align="center">
   <img src="https://img.shields.io/badge/OS:FreeBSD-red?style=for-the-badge&labelColor=grey" alt="OS: FreeBSD 14"><br><br>
 </p>
