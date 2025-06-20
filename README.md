@@ -98,15 +98,6 @@ sudo ./setup.sh
 6. Follow any additional setup instructions and information provided in the `docs` directory.
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/CONTRIBUTION-white?style=for-the-badge&labelColor=black" alt="CONTRIBUTION"><br><br>
-We welcome contributions! 
-
-</p>
-
-
-![GitHub stats](https://github-readme-stats.vercel.app/api?username=opensource-for-freedom&show_icons=true&theme=dark)
-
 
 <p align="center">
   <img src="https://img.shields.io/badge/PROJECT PARTNERS-white?style=for-the-badge&labelColor=black" alt="PROJECT PARTNERS"><br><br>
