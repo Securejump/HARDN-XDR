@@ -126,7 +126,7 @@ flowchart TD
   G --> H([<b>Push Changes<br>to GitHub</b>]):::vcs
   H --> I([<b>GitHub Actions:<br>build_deploy.yml</b>]):::ci
   I --> J([<b>CI/CD:<br>Automatic Build & Release</b>]):::ci
-  J --> K([<b>Release Assets<br>(.deb) Published</b>]):::release
+  J --> K(["<b>Release Assets<br>(.deb) Published</b>"]):::release
 
   classDef source fill:#e6f7ff,stroke:#1890ff,stroke-width:2;
   classDef packaging fill:#fffbe6,stroke:#faad14,stroke-width:2;
