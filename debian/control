@@ -1,23 +1,34 @@
 Source: hardn
 Section: admin
 Priority: optional
-Maintainer: Tim Burns 
+Maintainer: Tim Burns
 Build-Depends: debhelper-compat (= 13)
-Homepage: https://github.com/OpenSource-For-Freedom/HARDN-XDR -b deb-package
-Vcs-Git: https://github.com/OpenSource-For-Freedom/HARDN-XDR.git -b deb-package
-Vcs-Browser: https://github.com/OpenSource-For-Freedom/HARDN-XDR -b deb-package
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/Opensource-for-freedom/HARDN-XDR -b deb-package
+Vcs-Git: https://github.com/Opensource-for-freedom/HARDN-XDR.git -b deb-package
+Vcs-Browser: https://github.com/Opensource-for-freedom/HARDN-XDR -b deb-package
 
 Package: hardn-xdr
 Architecture: all
-Priority: medium
-Section: utils
-Version: 2.0.0
-Depends: auditd, audispd-plugins, suricata, fail2ban, rkhunter, chkrootkit, unhide, debsums, lynis,
+Depends: ${misc:Depends},
+ auditd, audispd-plugins, suricata, fail2ban, rkhunter, chkrootkit, unhide, debsums, lynis,
  clamav, clamav-daemon, clamav-freshclam, yara, aide, aide-common, rsyslog, logrotate,
  needrestart, apt-listchanges, apt-listbugs, unattended-upgrades, apt-transport-https,
- ca-certificates, software-properties-common, lsb-release, gnupg, openssh-server,
- openssh-client, ufw, systemd-timesyncd, apparmor, apparmor-profiles, apparmor-utils,
- firejail, libpam-pwquality, libpam-google-authenticator, libpam-tmpdir, curl, wget,
- lsof, psmisc, procps, git
-Description: HARDN-XDR - Linux Security Hardening Sentinel
- A single script to automate Linux security hardening and monitoring setup.
+ ca-certificates, software-properties-common, lsb-release, gnupg, openssh-server, openssh-client,
+ ufw, systemd-timesyncd, apparmor, apparmor-profiles, apparmor-utils, firejail,
+ libpam-pwquality, libpam-google-authenticator, libpam-tmpdir, curl, wget, lsof, psmisc, procps, git,
+ python3-gi, python3-gi-cairo, python3-matplotlib, python3-psutil, python3-requests, gir1.2-gtk-3.0
+Description: Linux Security Hardening Extended Detection and Response
+ HARDN is a comprehensive Linux security hardening and endpoint defense toolkit.
+ It integrates auditing tools, antivirus scanners, system integrity checkers, and
+ provides compliance with STIG security guidelines.
+ .
+ Features:
+  - Automated system hardening
+  - Log management and monitoring
+  - System file integrity checking
+  - Intrusion detection and malware scanning
+  - Integration with systemd and secure defaults
+ .
+ Suitable for Debian-based servers, desktops, and headless endpoints in high-security environments.
