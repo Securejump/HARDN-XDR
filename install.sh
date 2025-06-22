@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e pipefail
+set -euo pipefail
 
 HARDN_STATUS() {
     local status="$1"
@@ -14,13 +14,10 @@ HARDN_STATUS() {
     esac
 }
 
-check_root () {
-    [ "$(id -u)" -ne 0 ] && HARDN_STATUS "error" "Please run this script as root." && exit 1
-}
 
 update_system() {
     HARDN_STATUS "info" "Updating system package lists..."
-    apt update 
+    apt update
 
 }
 
@@ -42,13 +39,21 @@ retrieve_repo() {
         git pull
         cd ..
     else
-        git clone -b deb-package https://github.com/OpenSource-For-Freedom/HARDN-XDR.git
+        git clone -b deb-package https://github.com/OpenSource-For-Freedom/HARDN-XDR/deb-package.git
     fi
 }
 
 build_and_install_deb() {
     cd HARDN-XDR
     HARDN_STATUS "info" "Building the .deb package..."
+    apt isntall devscripts debhelper -y
+    apt install build-essential -y
+    apt install fakeroot -y
+    apt install lintian -y
+    apt install dh-make -y
+    apt install debhelper -y
+    apt install libssl-dev -y
+    apt install libcurl4-gnutls-dev -y
     dpkg-buildpackage -us -uc -b
 
     cd ..
