@@ -83,20 +83,20 @@ run_packages_sh() {
     else
         OS_FAMILY="unknown"
     fi
-
+# call based on OS
     if [ "$OS_FAMILY" = "debian" ]; then
         HARDN_STATUS "info" "Detected Debian/Ubuntu-based system."
-        if [ -f HARDN-XDR/src/setup/packages.sh ]; then
-            chmod +x HARDN-XDR/src/setup/packages.sh
-            HARDN-XDR/src/setup/packages.sh debian
+        if [ -f HARDN-XDR/src/packages.sh ]; then
+            chmod +x HARDN-XDR/src/packages.sh
+            HARDN-XDR/src/packages.sh debian
         else
             HARDN_STATUS "warning" "packages.sh not found for Debian/Ubuntu system."
         fi
     elif [ "$OS_FAMILY" = "redhat" ]; then
         HARDN_STATUS "info" "Detected RedHat/Fedora/CentOS-based system."
-        if [ -f HARDN-XDR/src/setup/packages.sh ]; then
-            chmod +x HARDN-XDR/src/setup/packages.sh
-            HARDN-XDR/src/setup/packages.sh redhat
+        if [ -f HARDN-XDR/src/packages.sh ]; then
+            chmod +x HARDN-XDR/src/packages.sh
+            HARDN-XDR/src/packages.sh redhat
         else
             HARDN_STATUS "warning" "packages.sh not found for RedHat/Fedora/CentOS system."
         fi
