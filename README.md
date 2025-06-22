@@ -65,7 +65,7 @@ This method uses the latest stable release, packaged as a `.deb` file. It's the 
 Run the following command in your terminal. It will automatically download the latest release, install it, and handle all dependencies.
 
 ```bash
-wget -O - https://raw.githubusercontent.com/OpenSource-For-Freedom/HARDN-XDR/deb-package
+wget -O - https://raw.githubusercontent.com/OpenSource-For-Freedom/HARDN-XDR/main/deb-package/install.sh
 sudo chmod +x install.sh
 sudo bash -x install.sh
 ```
