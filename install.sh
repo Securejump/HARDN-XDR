@@ -46,7 +46,7 @@ else
 build_and_install_deb() {
     cd HARDN-XDR
     HARDN_STATUS "info" "Building the .deb package..."
-    apt isntall devscripts debhelper -y
+    apt install devscripts debhelper -y
     apt install build-essential -y
     apt install fakeroot -y
     apt install lintian -y
