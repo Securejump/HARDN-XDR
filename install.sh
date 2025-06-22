@@ -20,7 +20,7 @@ check_root () {
 
 update_system() {
     HARDN_STATUS "info" "Updating system package lists..."
-    apt update -y
+    apt update 
 
 }
 
