@@ -1,0 +1,52 @@
+name: Build and Deploy Debian Package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential devscripts debhelper fakeroot
+
+      - name: Build Debian package
+        run: |
+          dpkg-buildpackage -us -uc
+
+      - name: Archive Debian package
+        uses: actions/upload-artifact@v3
+        with:
+          name: debian-package
+          path: ../*.deb
+
+  deploy:
+    needs: build-deb
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download Debian package
+        uses: actions/download-artifact@v3
+        with:
+          name: debian-package
+
+      - name: Display package files
+        run: ls -lh *.deb
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: "*.deb"
+          tag_name: "v${{ github.run_number }}"
+          name: "HARDN-XDR Release v${{ github.run_number }}"

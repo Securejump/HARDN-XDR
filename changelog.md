@@ -24,7 +24,7 @@
 
 ---
 
-## Version 1.1.8
+## Version 1.1.8-9
 
 ### Added
 - **New Feature**: Introduced a new feature for enhanced system monitoring.
@@ -67,7 +67,7 @@
 
 ### Fixed
 - **Cron Jobs**: Ensured cron jobs are non-intrusive and do not disrupt user workflows.
-- **GRUB BUG**: removed dependant file due to PAM collision and Kernal alerting flaw. 
+- **GRUB BUG**: removed dependant file due to PAM collision and Kernal alerting flaw.
 - **AIDE Initialization**: Improved AIDE initialization process for better reliability.
 
 

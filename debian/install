@@ -1,0 +1,4 @@
+# Install the main executable to /usr/local/bin
+usr/local/bin/hardn-xdr
+src/setup/hardn-main.sh /usr/lib/hardn-xdr/
+src/packages.sh /usr/lib/hardn-xdr/
