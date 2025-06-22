@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -e pipefail
 
 HARDN_STATUS() {
     local status="$1"
@@ -20,7 +20,7 @@ check_root () {
 
 update_system() {
     HARDN_STATUS "info" "Updating system package lists..."
-    apt update -y
+    apt update 
 
 }
 
@@ -103,6 +103,7 @@ run_packages_sh() {
 launch_menu() {
     if command -v hardn >/dev/null 2>&1; then
         echo
+        HARDN_STATUS "info" "Starting HARDN-XDR setup..."
         HARDN_STATUS "info" "-----------------------------------------------------"
         HARDN_STATUS "info" "Launching the HARDN-XDR main menu."
         HARDN_STATUS "info" "You can use:"

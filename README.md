@@ -65,41 +65,10 @@ This method uses the latest stable release, packaged as a `.deb` file. It's the 
 Run the following command in your terminal. It will automatically download the latest release, install it, and handle all dependencies.
 
 ```bash
-wget -O - https://raw.githubusercontent.com/OpenSource-For-Freedom/HARDN-XDR/main/scripts/hardn.sh | sudo bash
+wget https://raw.githubusercontent.com/OpenSource-For-Freedom/HARDN-XDR/deb-package/install.sh
+sudo chmod +x install.sh
+sudo bash -x install.sh
 ```
-
-#### Manual `.deb` Install
-
-If you prefer to download the package manually:
-
-1.  **Download**: Go to the [**Releases**](https://github.com/OpenSource-For-Freedom/HARDN-XDR/releases) page and download the latest `.deb` file.
-2.  **Install**: Open a terminal and run the following commands:
-    ```bash
-    # Install the package
-    sudo dpkg -i /path/to/hardn-xdr_*.deb
-
-    # Install any missing dependencies
-    sudo apt-get install -f -y
-    ```
-
----
-
-### Method 2: Install from Source (For Developers)
-
-This method installs HARDN-XDR directly from the source code in this repository. It uses the `install.sh` script, which internally calls `packages.sh` to install the required tools.
-
-1.  **Clone the Repository**:
-    ```bash
-    git clone https://github.com/OpenSource-For-Freedom/HARDN-XDR.git
-    cd HARDN-XDR
-    ```
-2.  **Run the Installer**:
-    ```bash
-    sudo ./install.sh
-    ```
-    The script will present a menu with options to install, uninstall, or audit the system.
-
----
 
 ### How to Run
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 1.2.0 - Debian Packaging & Workflow Automation (2025-06-22)
+## Debian Packaging & Workflow Automation (2025-06-22)
 
 ### Added
 - **Debian Packaging**: Implemented a complete Debian packaging workflow using `dpkg-buildpackage` for robust and standardized installations.
