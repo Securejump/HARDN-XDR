@@ -3,10 +3,9 @@ Section: admin
 Priority: optional
 Maintainer: Tim Burns <you@example.com>
 Build-Depends: debhelper-compat (= 13)
-Standards-Version: 4.6.2
-Homepage: https://github.com/OpenSource-For-Freedom/HARDN-XDR
+Homepage: https://github.com/OpenSource-For-Freedom/HARDN-XDR -b deb-package
 Vcs-Git: https://github.com/OpenSource-For-Freedom/HARDN-XDR.git -b deb-package
-Vcs-Browser: https://github.com/OpenSource-For-Freedom/HARDN-XDR
+Vcs-Browser: https://github.com/OpenSource-For-Freedom/HARDN-XDR -b deb-package
 
 Package: hardn-xdr
 Architecture: all
