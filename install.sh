@@ -46,14 +46,14 @@ else
 build_and_install_deb() {
     cd HARDN-XDR
     HARDN_STATUS "info" "Building the .deb package..."
-    apt install devscripts debhelper -y
-    apt install build-essential -y
-    apt install fakeroot -y
-    apt install lintian -y
-    apt install dh-make -y
-    apt install debhelper -y
-    apt install libssl-dev -y
-    apt install libcurl4-gnutls-dev -y
+    apt install devscripts debhelper 
+    apt install build-essential 
+    apt install fakeroot 
+    apt install lintian 
+    apt install dh-make 
+    apt install debhelper 
+    apt install libssl-dev 
+    apt install libcurl4-gnutls-dev 
     dpkg-buildpackage -us -uc -b
 
     cd ..
