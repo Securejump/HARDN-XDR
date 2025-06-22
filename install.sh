@@ -38,8 +38,8 @@ retrieve_repo() {
         cd HARDN-XDR
         git pull
         cd ..
-    else
-        git clone -b deb-package https://github.com/OpenSource-For-Freedom/HARDN-XDR/deb-package.git
+else
+        git clone -b deb-package https://github.com/OpenSource-For-Freedom/HARDN-XDR.git
     fi
 }
 
@@ -125,7 +125,6 @@ launch_menu() {
 }
 
 main() {
-    check_root
     update_system
     check_git
     retrieve_repo
