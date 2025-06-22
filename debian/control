@@ -1,7 +1,7 @@
 Source: hardn
 Section: admin
 Priority: optional
-Maintainer: Tim Burns <you@example.com>
+Maintainer: Tim Burns 
 Build-Depends: debhelper-compat (= 13)
 Homepage: https://github.com/OpenSource-For-Freedom/HARDN-XDR -b deb-package
 Vcs-Git: https://github.com/OpenSource-For-Freedom/HARDN-XDR.git -b deb-package
