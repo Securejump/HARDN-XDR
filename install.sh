@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -e pipefail
 
 HARDN_STATUS() {
     local status="$1"
