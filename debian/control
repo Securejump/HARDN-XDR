@@ -1,16 +1,24 @@
+Source: hardn
+Section: admin
+Priority: optional
+Maintainer: Tim Burns <you@example.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/OpenSource-For-Freedom/HARDN-XDR
+Vcs-Git: https://github.com/OpenSource-For-Freedom/HARDN-XDR.git
+Vcs-Browser: https://github.com/OpenSource-For-Freedom/HARDN-XDR
+
 Package: hardn-xdr
-Version: 2.0.0
-Section: utils
-Priority: medium
-Source: hardn-xdr
 Architecture: all
-Depends: auditd audispd-plugins suricata fail2ban rkhunter chkrootkit unhide debsums lynis
-        clamav clamav-daemon clamav-freshclam yara aide aide-common rsyslog logrotate
-        needrestart apt-listchanges apt-listbugs unattended-upgrades apt-transport-https
-        ca-certificates software-properties-common lsb-release gnupg openssh-server
-        openssh-client ufw systemd-timesyncd apparmor apparmor-profiles apparmor-utils
-        firejail libpam-pwquality libpam-google-authenticator libpam-tmpdir curl wget
-        lsof psmisc procps git
-Maintainer: Matei B.
+Priority: medium
+Section: utils
+Version: 2.0.0
+Depends: auditd, audispd-plugins, suricata, fail2ban, rkhunter, chkrootkit, unhide, debsums, lynis,
+ clamav, clamav-daemon, clamav-freshclam, yara, aide, aide-common, rsyslog, logrotate,
+ needrestart, apt-listchanges, apt-listbugs, unattended-upgrades, apt-transport-https,
+ ca-certificates, software-properties-common, lsb-release, gnupg, openssh-server,
+ openssh-client, ufw, systemd-timesyncd, apparmor, apparmor-profiles, apparmor-utils,
+ firejail, libpam-pwquality, libpam-google-authenticator, libpam-tmpdir, curl, wget,
+ lsof, psmisc, procps, git
 Description: HARDN-XDR - Linux Security Hardening Sentinel
  A single script to automate Linux security hardening and monitoring setup.

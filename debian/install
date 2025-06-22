@@ -1,4 +1,8 @@
-# Install the main executable to /usr/local/bin
-usr/local/bin/hardn-xdr
-src/setup/hardn-main.sh /usr/lib/hardn-xdr/
-src/packages.sh /usr/lib/hardn-xdr/
+FROM debian:stable-slim
+
+COPY usr/local/bin/hardn-xdr /usr/local/bin/
+COPY debian/hardn-xdr.service etc/systemd/system/
+COPY src/setup/hardn-main.sh /usr/lib/hardn-xdr/
+COPY src/setup/install.sh /usr/lib/hardn-xdr/
+COPY docs/hardn.1 usr/share/man/man1/
+COPY src/packages.sh /usr/lib/hardn-xdr/

@@ -1,10 +1,7 @@
-name: Build and Deploy Debian Package
+name: Build Debian Package
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   build-deb:
@@ -28,25 +25,3 @@ jobs:
         with:
           name: debian-package
           path: ../*.deb
-
-  deploy:
-    needs: build-deb
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Download Debian package
-        uses: actions/download-artifact@v3
-        with:
-          name: debian-package
-
-      - name: Display package files
-        run: ls -lh *.deb
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          files: "*.deb"
-          tag_name: "v${{ github.run_number }}"
-          name: "HARDN-XDR Release v${{ github.run_number }}"

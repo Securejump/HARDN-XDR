@@ -1,5 +1,26 @@
 # Changelog
 
+## Version 1.2.0 - Debian Packaging & Workflow Automation (2025-06-22)
+
+### Added
+- **Debian Packaging**: Implemented a complete Debian packaging workflow using `dpkg-buildpackage` for robust and standardized installations.
+- **GitHub Actions CI/CD**: Created `.github/workflows/build_release.yml` to automatically build the `.deb` package on pushes to `main` and `deb-package`, and create a GitHub Release with the package for pushes to `main`.
+- **One-Command Installer**: Added a user-friendly one-command installer script (`scripts/hardn.sh`) for end-users to easily fetch and install the latest release from GitHub.
+- **Lynis Compliance Enhancements**: Added kernel hardening, password policies, login banners, AIDE initialization, scheduled security scans, and process accounting to `hardn-main.sh` to significantly improve Lynis compliance score.
+- **Main Executable**: Created a main executable at `/usr/local/bin/hardn` which acts as the primary entry point for the application.
+
+### Improved
+- **Installation Process**: Overhauled the installation process, providing two clear paths: a source install for developers (`install.sh`) and a package-based install for end-users (`.deb`).
+- **Script Quality**: Performed a full `shellcheck` audit on all shell scripts (`hardn-main.sh`, `packages.sh`, `install.sh`) and fixed all actionable warnings, improving script reliability and maintainability.
+- **Documentation**: Significantly updated `README.md` to explain the new installation methods, the role of each script, and the automated build/release process.
+- **Permissions Handling**: Ensured all scripts are correctly set as executable during both source and Debian package installations via `install.sh` and `debian/postinst`.
+
+### Fixed
+- **Packaging Manifest**: Corrected `debian/install` to only include necessary files (`hardn`, `hardn-main.sh`, `packages.sh`) in the final `.deb` package.
+- **README.md Rendering**: Fixed Mermaid diagram syntax in `README.md` to ensure it renders correctly.
+
+---
+
 
 #### Added
 - **Version Tracking**: Added explicit version identifier (v2.0.0) throughout the script and user interface

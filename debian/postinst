@@ -1,21 +1,18 @@
 #!/bin/bash
 set -e
 
-chmod +x /usr/local/bin/hardn
 
+chmod +x /usr/local/bin/hardn-xdr
 
-if [ -f /usr/lib/hardn-xdr/hardn-main.sh ]; then
-    chmod +x /usr/lib/hardn-xdr/hardn-main.sh
-fi
-
-if [ -f /usr/lib/hardn-xdr/packages.sh ]; then
-    chmod +x /usr/lib/hardn-xdr/packages.sh
-fi
+for file in hardn-main.sh install.sh packages.sh; do
+    if [ -f "/usr/lib/hardn-xdr/$file" ]; then
+        chmod +x "/usr/lib/hardn-xdr/$file"
+    fi
+done
 
 echo "-----------------------------------------------------"
 echo "HARDN-XDR installed successfully."
-echo "Run 'sudo hardn start' to apply security settings."
+echo "Run 'sudo hardn-xdr' or 'sudo hardn start' to apply security settings."
 echo "-----------------------------------------------------"
-
 
 exit 0

@@ -5,7 +5,7 @@ set -euo pipefail
 APP_NAME="HARDN-XDR"
 VERSION="2.0.0"
 
-MAIN_SCRIPT="/usr/lib/hardn-xdr/hardn-main.sh"
+MAIN_SCRIPT="/usr/lib/hardn-xdr/src/setup/hardn-main.sh"
 
 show_help() {
     cat <<EOF
@@ -14,9 +14,9 @@ $APP_NAME $VERSION
 Usage: $(basename "$0") [command]
 
 Commands:
-  start         Run the main HARDN-XDR security hardening script.
-  stop          (Not yet implemented)
-  status        (Not yet implemented)
+  start         Run hardn-xdr as a service
+  stop          Stop hardn-xdr service
+  status        Show hardn-xdr status
   help          Show this help message
 
 Example:
@@ -24,17 +24,23 @@ Example:
 EOF
 }
 
+stop_service() {
+    HARDN_STATUS "info" "Stopping HARDN-XDR service..."
+    systemctl stop hardn-xdr && \
+        HARDN_STATUS "pass" "Service stopped." || \
+        HARDN_STATUS "warning" "Service not running or not found."
+}
+
+status_service() {
+    HARDN_STATUS "info" "Checking HARDN-XDR service status..."
+    systemctl status hardn-xdr --no-pager
+}
+
 start_service() {
-    if [ ! -f "$MAIN_SCRIPT" ]; then
-        echo "ERROR: Main script not found at $MAIN_SCRIPT"
-        echo "The package may be installed incorrectly."
-        exit 1
-    fi
-
-    echo "Executing the main HARDN-XDR script..."
-
-    chmod +x "$MAIN_SCRIPT"
-    "$MAIN_SCRIPT"
+    HARDN_STATUS "info" "Starting HARDN-XDR service..."
+    systemctl start hardn-xdr && \
+        HARDN_STATUS "pass" "Service started." || \
+        HARDN_STATUS "error" "Failed to start service."
 }
 
 

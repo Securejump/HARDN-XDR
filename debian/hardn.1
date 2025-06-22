@@ -1,0 +1,68 @@
+.TH HARDN 1 "June 2024" "Version 2.0.0" "User Commands"
+.SH NAME
+hardn \- Interactive CLI for HARDN-XDR Linux Security Hardening
+.SH SYNOPSIS
+.B hardn
+[\fICOMMAND\fR]
+.SH DESCRIPTION
+\fBHARDN-XDR\fR is a security hardening suite for Linux systems, providing an interactive CLI for secure setup, auditing, and configuration management.
+
+If called without a command, an interactive menu is presented.
+
+.SH COMMANDS
+.TP
+.B start
+Run the main HARDN-XDR security hardening script.
+.TP
+.B audit
+Run a system security audit only, without making changes.
+.TP
+.B status
+Show the status of the HARDN-XDR protections or last run.
+.TP
+.B stop
+Stop the HARDN-XDR background service (if running). If no service is active, displays a warning.
+.TP
+.B help
+Show this help message and command usage.
+
+.SH OPTIONS
+.TP
+.B \-h, \-\-help
+Show the help message.
+
+.SH EXAMPLES
+.TP
+\fBsudo hardn start\fR
+.br
+Runs the main system hardening procedure.
+
+.TP
+\fBsudo hardn audit\fR
+.br
+Runs a security audit only.
+
+.TP
+\fBsudo hardn\fR
+.br
+Opens the interactive menu for further actions.
+
+.SH FILES
+.TP
+/usr/local/bin/hardn
+.br
+Main CLI binary.
+
+.TP
+/usr/lib/hardn-xdr/src/setup/hardn-main.sh
+.br
+Main system hardening script.
+
+.SH AUTHOR
+Developed and maintained by Christopher Bingham and Tim Burns.
+
+.SH REPORTING BUGS
+Report bugs at: https://github.com/OpenSource-For-Freedom/HARDN-XDR/issues
+
+.SH COPYRIGHT
+MIT License. See the project repository for details.

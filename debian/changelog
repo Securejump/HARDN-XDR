@@ -1,0 +1,9 @@
+hardn-xdr (2.0.0-1) stable; urgency=medium
+
+  * Packaged release of HARDN-XDR - Linux Security Hardening Sentinel.
+  * Includes automated installation of major security packages.
+  * Sets up kernel and user-space hardening rules.
+  * Provides STIG-compliant base configuration.
+  * Ships with user-friendly `hardn-xdr` launcher and modular scripts.
+
+ -- Tim Burns  Sat, 22 Jun 2025 06:00:00 -0400
