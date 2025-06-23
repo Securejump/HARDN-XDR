@@ -18,7 +18,7 @@ if ! dpkg -s rkhunter >/dev/null 2>&1; then
 
 		cd /tmp || { HARDN_STATUS "error" "Error: Cannot change directory to /tmp."; return 1; }
 		HARDN_STATUS "info" "Cloning rkhunter from GitHub..."
-		if git clone https://github.com/rootkitHunter/rkhunter.git rkhunter_github_clone >/dev/null 2>&1; then
+		if $(git clone https://github.com/Rootkit-Hunter/rkhunter.git rkhunter_github_clone >/dev/null 2>&1); then
 			cd rkhunter_github_clone || { HARDN_STATUS "error" "Error: Cannot change directory to rkhunter_github_clone."; return 1; }
 			HARDN_STATUS "info" "Running rkhunter installer..."
 			if ./installer.sh --install >/dev/null 2>&1; then
