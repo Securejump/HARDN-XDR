@@ -232,6 +232,10 @@ setup_security(){
     # OS detection is done by detect_os_details() 
     # global variables CURRENT_DEBIAN_VERSION_ID and CURRENT_DEBIAN_CODENAME are available.
     HARDN_STATUS "pass" "Using detected system: Debian ${CURRENT_DEBIAN_VERSION_ID} (${CURRENT_DEBIAN_CODENAME}) for security setup."
+    source ./modules/ufw.sh
+    source ./modules/deleted_files.sh
+    source ./modules/ntp.sh
+
     
     HARDN_STATUS "info" "Setting up security tools and configurations..."
 # HARDN-XDR USB Security Configuration
