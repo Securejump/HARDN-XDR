@@ -232,89 +232,13 @@ setup_security(){
     # OS detection is done by detect_os_details() 
     # global variables CURRENT_DEBIAN_VERSION_ID and CURRENT_DEBIAN_CODENAME are available.
     HARDN_STATUS "pass" "Using detected system: Debian ${CURRENT_DEBIAN_VERSION_ID} (${CURRENT_DEBIAN_CODENAME}) for security setup."
-    if [[ $(source ./modules/ufw.sh ; $? ) != 0 ]]; then
-    	HARDN_STATUS "error" "UFW setup failed!"
-    fi
-
-	if [[ $(source ./modules/deleted_files.sh ; $?) != 0 ]]; then
-		HARDN_STATUS "error" "Deleted files module failed!"
-	fi
-
-	if [[ $(source ./modules/ntp.sh ; $?) != 0 ]]; then
-		HARDN_STATUS "error" "NTP configurations failed!"
-	fi
-
-	if [[ $(source ./modules/usb.sh ; $?) != 0 ]]; then
-		HARDN_STATUS "error" "USB configurations failed!"
-	fi
-
-
+    source ./modules/ufw.sh 
+	source ./modules/deleted_files.sh 
+	source ./modules/ntp.sh
+	source ./modules/usb.sh
+	source ./modules/network_protocols.sh
     
     HARDN_STATUS "info" "Setting up security tools and configurations..."
-    ############################ Disable unnecessary network protocols in kernel
-    HARDN_STATUS "error" "Disabling unnecessary network protocols..."
-    
-    # warn network interfaces in promiscuous mode
-    for interface in $(/sbin/ip link show | awk '$0 ~ /: / {print $2}' | sed 's/://g'); do
-        if /sbin/ip link show "$interface" | grep -q "PROMISC"; then
-            HARDN_STATUS "warning" "Interface $interface is in promiscuous mode. Review Interface."
-        fi
-    done
-    # Create comprehensive blacklist file for network protocols
-    cat > /etc/modprobe.d/blacklist-rare-network.conf << 'EOF'
-# HARDN-XDR Blacklist for Rare/Unused Network Protocols
-# Disabled for compliance and attack surface reduction
-
-# TIPC (Transparent Inter-Process Communication)
-install tipc /bin/true
-
-# DCCP (Datagram Congestion Control Protocol) - DoS risk
-install dccp /bin/true
-
-# SCTP (Stream Control Transmission Protocol) - Can bypass firewall rules
-install sctp /bin/true
-
-# RDS (Reliable Datagram Sockets) - Previous vulnerabilities
-install rds /bin/true
-
-# Amateur Radio and Legacy Protocols
-install ax25 /bin/true
-install netrom /bin/true
-install rose /bin/true
-install decnet /bin/true
-install econet /bin/true
-install ipx /bin/true
-install appletalk /bin/true
-install x25 /bin/true
-
-# Bluetooth networking (typically unnecessary on servers) 
-
-# Wireless protocols (if not needed) put 80211x and 802.11 in the blacklist
-
-# Exotic network file systems
-install cifs /bin/true
-install nfs /bin/true
-install nfsv3 /bin/true
-install nfsv4 /bin/true
-install ksmbd /bin/true
-install gfs2 /bin/true
-
-# Uncommon IPv4/IPv6 protocols
-install atm /bin/true
-install can /bin/true
-install irda /bin/true
-
-# Legacy protocols
-install token-ring /bin/true
-install fddi /bin/true
-EOF
-
-    HARDN_STATUS "pass" "Network protocol hardening complete: Disabled $(grep -c "^install" /etc/modprobe.d/blacklist-rare-network.conf) protocols"
-    
-    
-    # Apply changes immediately where possible
-    sysctl -p
-    
     ############################ Secure shared memory
     HARDN_STATUS "info" "Securing shared memory..."
     if ! grep -q "tmpfs /run/shm" /etc/fstab; then
