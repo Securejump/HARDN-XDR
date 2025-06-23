@@ -262,7 +262,6 @@ setup_security(){
 	source ./modules/process_accounting.sh
 	source ./modules/kernel_sec.sh
 	source ./modules/central_logging.sh
-	#source ./modules/service_disable.sh
 	source ./modules/unnecesary_services.sh
 	source ./modules/audit_system.sh
 	source ./modules/pentest.sh
