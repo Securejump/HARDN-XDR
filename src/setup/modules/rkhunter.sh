@@ -36,6 +36,8 @@ else
 fi
 
 if command -v rkhunter >/dev/null 2>&1; then
+	# fixes: issue with git install where /etc/default/rkhunter is not created during the installation process
+	test -e /etc/default/rkhunter || touch /etc/default/rkhunter
 
 	sed -i 's/#CRON_DAILY_RUN=""/CRON_DAILY_RUN="true"/' /etc/default/rkhunter 2>/dev/null || true
 
