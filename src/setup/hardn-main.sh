@@ -239,11 +239,6 @@ setup_security(){
 	source ./modules/network_protocols.sh
     
     HARDN_STATUS "info" "Setting up security tools and configurations..."
-    ############################ Secure shared memory
-    HARDN_STATUS "info" "Securing shared memory..."
-    if ! grep -q "tmpfs /run/shm" /etc/fstab; then
-        echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid,nodev 0 0" >> /etc/fstab
-    fi
     
     ########################### Set secure file permissions
 	HARDN_STATUS "info" "Setting secure file permissions..."
