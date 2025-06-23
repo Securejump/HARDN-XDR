@@ -257,9 +257,6 @@ setup_security(){
 	source ./modules/binfmt.sh
 }
 
-disable_firewire_drivers() {
-}
-
 purge_old_packages() {
     HARDN_STATUS "error" "Purging configuration files of old/removed packages..."
     local packages_to_purge
