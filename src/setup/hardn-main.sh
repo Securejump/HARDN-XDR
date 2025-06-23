@@ -253,7 +253,7 @@ setup_security(){
 	source ./modules/aide.sh
 	source ./modules/yara.sh
 	source ./modules/banner.sh
-	source ./modules/cmopilers.sh
+	source ./modules/compilers.sh
 	source ./modules/grub.sh
 	source ./modules/binfmt.sh
 	source ./modules/purge_old_pkgs.sh
@@ -262,7 +262,7 @@ setup_security(){
 	source ./modules/process_accounting.sh
 	source ./modules/kernel_sec.sh
 	source ./modules/central_logging.sh
-	source ./modules/service_disable.sh
+	#source ./modules/service_disable.sh
 	source ./modules/unnecesary_services.sh
 	source ./modules/audit_system.sh
 	source ./modules/pentest.sh
@@ -286,18 +286,6 @@ main() {
     update_system_packages
     install_package_dependencies "../../progs.csv"
     setup_security
-    apply_kernel_security
-    enable_nameservers
-    enable_process_accounting_and_sysstat
-    purge_old_packages
-    disable_firewire_drivers
-    restrict_compilers
-    disable_binfmt_misc
-    remove_unnecessary_services
-    setup_grub_password
-    setup_central_logging
-    audit_system
-    pen_test
     cleanup
     print_ascii_banner
 
