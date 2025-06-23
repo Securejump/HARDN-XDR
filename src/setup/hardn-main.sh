@@ -243,8 +243,7 @@ setup_security(){
 	source ./modules/coredumps.sh
 	source ./modules/auto_updates.sh
 	source ./modules/secure_net.sh
-	#source ./modules/rkhunter.sh 
-	source ./modules/stig_pwquality.sh
+ 	source ./modules/stig_pwquality.sh
 	# TODO: fix chkrootkit's download URL; the one in the module DOES NOT exist.
 	#source ./modules/chkrootkit.sh
 	source ./modules/auditd.sh
@@ -265,6 +264,7 @@ setup_security(){
 	source ./modules/unnecesary_services.sh
 	source ./modules/audit_system.sh
 	source ./modules/pentest.sh
+	source ./modules/rkhunter.sh 
 }
 
 cleanup() {
