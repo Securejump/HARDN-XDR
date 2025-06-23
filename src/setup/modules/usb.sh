@@ -50,5 +50,3 @@ else
 fi
 
 HARDN_STATUS "pass" "USB configuration complete: keyboards and mice allowed, storage blocked."
-
-
