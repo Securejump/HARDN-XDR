@@ -242,6 +242,7 @@ setup_security(){
 	source ./modules/coredumps.sh
 	source ./modules/auto_updates.sh
 	source ./modules/secure_net.sh
+	source ./modules/rkhutner.sh
     
     HARDN_STATUS "info" "Setting up security tools and configurations..."
     
