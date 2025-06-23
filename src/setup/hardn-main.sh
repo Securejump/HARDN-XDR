@@ -6,7 +6,7 @@
 # About this script:
 # STIG Compliance: Security Technical Implementation Guide.
 
-HARDN_VERSION="2.0.0"
+HARDN_VERSION="2.1.0"
 export APT_LISTBUGS_FRONTEND=none
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROGS_CSV_PATH="${SCRIPT_DIR}/../../progs.csv"
