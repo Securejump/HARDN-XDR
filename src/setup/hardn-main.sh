@@ -259,6 +259,7 @@ setup_security(){
 	source ./modules/dns_config.sh
 	source ./modules/firewire.sh
 	source ./modules/process_accounting.sh
+	source ./modules/kernel_sec.sh
 }
 
 # Central logging
