@@ -243,9 +243,10 @@ setup_security(){
 	source ./modules/coredumps.sh
 	source ./modules/auto_updates.sh
 	source ./modules/secure_net.sh
-	source ./modules/rkhunter.sh
+	#source ./modules/rkhunter.sh 
 	source ./modules/stig_pwquality.sh
-	source ./modules/chkrootkit.sh
+	# TODO: fix chkrootkit's download URL; the one in the module DOES NOT exist.
+	#source ./modules/chkrootkit.sh
 	source ./modules/auditd.sh
 	source ./modules/suricata.sh
 	source ./modules/debsums.sh
