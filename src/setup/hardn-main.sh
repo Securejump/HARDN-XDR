@@ -232,10 +232,22 @@ setup_security(){
     # OS detection is done by detect_os_details() 
     # global variables CURRENT_DEBIAN_VERSION_ID and CURRENT_DEBIAN_CODENAME are available.
     HARDN_STATUS "pass" "Using detected system: Debian ${CURRENT_DEBIAN_VERSION_ID} (${CURRENT_DEBIAN_CODENAME}) for security setup."
-    source ./modules/ufw.sh
-    source ./modules/deleted_files.sh
-    source ./modules/ntp.sh
-    source ./modules/usb.sh
+    if [[ $(source ./modules/ufw.sh ; $? ) != 0 ]]; then
+    	HARDN_STATUS "error" "UFW setup failed!"
+    fi
+
+	if [[ $(source ./modules/deleted_files.sh ; $?) != 0 ]]; then
+		HARDN_STATUS "error" "Deleted files module failed!"
+	fi
+
+	if [[ $(source ./modules/ntp.sh ; $?) != 0 ]]; then
+		HARDN_STATUS "error" "NTP configurations failed!"
+	fi
+
+	if [[ $(source ./modules/usb.sh ; $?) != 0 ]]; then
+		HARDN_STATUS "error" "USB configurations failed!"
+	fi
+
 
     
     HARDN_STATUS "info" "Setting up security tools and configurations..."
