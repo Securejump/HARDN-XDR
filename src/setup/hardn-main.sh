@@ -237,18 +237,11 @@ setup_security(){
 	source ./modules/ntp.sh
 	source ./modules/usb.sh
 	source ./modules/network_protocols.sh
+	source ./modules/file_perms.sh
+	source ./modules/shared_mem.sh
     
     HARDN_STATUS "info" "Setting up security tools and configurations..."
     
-    ########################### Set secure file permissions
-	HARDN_STATUS "info" "Setting secure file permissions..."
-	chmod 700 /root                    # root home directory - root
-	chmod 644 /etc/passwd              # user database - readable (required)
-	chmod 600 /etc/shadow              # password hashes - root only
-	chmod 644 /etc/group               # group database - readable
-	chmod 600 /etc/gshadow             # group passwords - root   
-	chmod 644 /etc/ssh/sshd_config     # SSH daemon config - readable
-
     ########################### Disable core dumps for security
     HARDN_STATUS "info" "Disabling core dumps..."
     if ! grep -q "hard core" /etc/security/limits.conf; then
