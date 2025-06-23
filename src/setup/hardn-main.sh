@@ -252,7 +252,7 @@ setup_security(){
 	source ./modules/aide.sh
 	source ./modules/yara.sh
 	source ./modules/banner.sh
-    
+}
 
 restrict_compilers() {
     HARDN_STATUS "error" "Restricting compiler access to root only (HRDN-7222)..."

@@ -21,4 +21,3 @@ fi
 } > "$banner_net_file"
 chmod 644 "$banner_net_file"
 HARDN_STATUS "pass" "STIG compliant banner configured in $banner_net_file."    
-}
