@@ -23,8 +23,7 @@ check_git() {
 }
 
 # Git clone the repo, then cd into the repo and run the script hardn-main.sh
-retrieve_repo() {
-        git clone https://github.com/Securejump/HARDN-XDR
+run() {
         cd HARDN-XDR/src/setup && chmod +x hardn-main.sh && sudo ./hardn-main.sh
 }
 
